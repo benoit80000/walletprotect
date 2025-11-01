@@ -1,14 +1,10 @@
-# Wallet Protect — Starter
+# Wallet Protect — Starter (v2)
 
-This starter project contains a minimal Next.js app (pages router) preview for the "Wallet Protect" UI.
-The project integrates the supplied logo (public/logo.png) into the header.
+Fixed Next.js config and added TypeScript dev dependencies.
 
-## How to run locally
+## Run
 
-1. `npm install`
-2. `npm run dev`
-3. Open http://localhost:3000
-
-## Notes
-- This is a starter preview; many integrations (Alchemy, Covalent, OnchainKit, etc.) are stubs.
-- Use the provided code as the basis for the full app.
+```bash
+npm install
+npm run dev
+```

@@ -4,9 +4,7 @@ import Header from '../components/Header';
 export default function Home() {
   const [page, setPage] = useState<'scan'|'protect'|'help'>('scan');
   const [theme, setTheme] = useState('dark');
-
   function cycleTheme(){ setTheme(t => t==='dark'?'light': t==='light'?'blue':'dark'); }
-
   return (
     <div className="container" data-theme={theme}>
       <Header onNav={(p)=>setPage(p as any)} current={page} cycleTheme={cycleTheme} />
