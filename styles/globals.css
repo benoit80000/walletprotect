@@ -1,0 +1,9 @@
+:root{
+  --base-primary:#0052FF; --base-primary-hover:#2B6BFF;
+  --bg:#0A0B14; --surface:#0F111A; --text:#FFFFFF; --accent:#00D1FF;
+}
+body { margin:0; font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:var(--bg); color:var(--text); }
+.container { max-width:1100px; margin:0 auto; padding:24px; }
+.card { border-radius:12px; padding:16px; background:var(--surface); box-shadow: 0 6px 18px rgba(2,6,23,0.6); }
+.btn { display:inline-flex; align-items:center; gap:8px; background:var(--base-primary); color:white; padding:8px 12px; border-radius:12px; border:none; cursor:pointer; }
+input, select, textarea { background: rgba(255,255,255,0.03); color:var(--text); border: 1px solid rgba(255,255,255,0.06); padding:8px; border-radius:8px; }

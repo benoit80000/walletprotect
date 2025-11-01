@@ -1,0 +1,1 @@
+This folder contains helper libs in the full project. In this starter, they are placeholders.
