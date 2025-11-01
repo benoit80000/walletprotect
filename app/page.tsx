@@ -1,52 +1,7 @@
 'use client';
-import React, { useState } from 'react';
+import React,{useState}from'react';
 import Header from './(components)/Header';
-import ApprovalsRadar, { Row } from './(components)/ApprovalsRadar';
-
-const MOCK_TOKENS = [
-  { chain:'base', symbol:'WETH', address:'0x4200...0006', balance:'1.2456' },
-  { chain:'base', symbol:'USDC', address:'0x8335...2913', balance:'2,450.00' },
-  { chain:'base', symbol:'DAI', address:'0x50c5...B0Cb', balance:'5,010.89' },
-];
-const MOCK_APPROVALS: Row[] = [
-  { chain:'base', type:'erc20', token:'0x8335...2913', token_symbol:'USDC', spender:'0xE592...1564', allowance:'infinite', tags:['infinite'] },
-  { chain:'base', type:'erc20', token:'0x4200...0006', token_symbol:'WETH', spender:'0xdead...beef', allowance:'1000', tags:['blocklist'] },
-  { chain:'base', type:'erc721', token:'0xABCD...1234', token_symbol:'NFT', spender:'0x1111...9999', allowance:'all', tags:['approvalForAll'] },
-];
-
-export default function Page(){
-  const [nav, setNav] = useState<'scan'|'protect'|'help'>('scan');
-  function onRevoke(r: Row){ alert('Révoquer → '+r.token); }
-  function onLimit(r: Row){ setNav('protect'); }
-  return (
-    <>
-      <Header onNav={setNav} current={nav} cycleTheme={()=>{}} />
-      <div style={{display: nav==='scan'?'block':'none'}}>
-        <section style={{textAlign:'center', marginBottom:16}}>
-          <h1 style={{fontSize:28, fontWeight:800}}>Scanne ton wallet & sécurise‑le en 3 étapes</h1>
-          <p style={{opacity:.8}}>Analyse multi-chaînes, recommandations, application en 1 clic.</p>
-          <div style={{marginTop:12, display:'flex', justifyContent:'center', gap:8}}>
-            <input placeholder="0x… adresse" style={{minWidth:360}} />
-            <button className="btn">Scanner</button>
-          </div>
-        </section>
-        <section style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:12}}>
-          <div className="card">
-            <b>Assets (Base)</b>
-            <ul style={{marginTop:8}}>
-              {MOCK_TOKENS.map((t,i)=>(<li key={i}>{t.symbol} — {t.balance}</li>))}
-            </ul>
-          </div>
-          <ApprovalsRadar rows={MOCK_APPROVALS} onRevoke={onRevoke} onLimit={onLimit} />
-        </section>
-        <div className="card" style={{marginTop:12, display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-          <div className="badge">3 risques élevés détectés</div>
-          <button className="btn" onClick={()=>setNav('protect')}>Créer un plan de protections</button>
-        </div>
-      </div>
-
-      {nav==='protect' && <iframe src="/base" style={{border:'none', width:'100%', height:'70dvh', borderRadius:12, background:'transparent'}} />}
-      {nav==='help' && <iframe src="/help" style={{border:'none', width:'100%', height:'70dvh', borderRadius:12, background:'transparent'}} />}
-    </>
-  );
-}
+import ApprovalsRadar,{Row}from'./(components)/ApprovalsRadar';
+const TOKENS=[{chain:'base',symbol:'WETH',address:'0x4200...0006',balance:'1.2456'},{chain:'base',symbol:'USDC',address:'0x8335...2913',balance:'2,450.00'},{chain:'base',symbol:'DAI',address:'0x50c5...B0Cb',balance:'5,010.89'},];
+const APPROVALS:Row[]=[{chain:'base',type:'erc20',token:'0x8335...2913',token_symbol:'USDC',spender:'0xE592...1564',allowance:'infinite',tags:['infinite']},{chain:'base',type:'erc20',token:'0x4200...0006',token_symbol:'WETH',spender:'0xdead...beef',allowance:'1000',tags:['blocklist']},{chain:'base',type:'erc721',token:'0xABCD...1234',token_symbol:'NFT',spender:'0x1111...9999',allowance:'all',tags:['approvalForAll']},];
+export default function Page(){const[nav,setNav]=useState<'scan'|'protect'|'help'>('scan');const[addr,setAddr]=useState('');const[err,setErr]=useState('');const[show,setShow]=useState(false);function isAddress(a:string){return /^0x[a-fA-F0-9]{40}$/.test(a);}function scan(){setErr('');if(!isAddress(addr)){setErr('Please enter a valid 0x address (EVM, 42 hex chars).');return;}setShow(true);}function onRevoke(r:Row){alert('Revoke → '+r.token);}function onLimit(r:Row){setNav('protect');}return(<><Header onNav={setNav} current={nav}/><div style={{display:nav==='scan'?'block':'none'}}><section className="card" style={{textAlign:'center',marginBottom:16}}><h1 style={{fontSize:28,fontWeight:800}}>Scan your wallet & secure it</h1><p style={{opacity:.85}}>Multi‑chain scan, clear recommendations, one‑click protections.</p><div style={{marginTop:12,display:'flex',justifyContent:'center',gap:8}}><input value={addr} onChange={e=>setAddr(e.target.value)} placeholder="0x… address (EVM)" style={{minWidth:360}}/><button className="btn" onClick={scan}>Scan</button></div>{err&&<div className="hint" style={{color:'#ff8a8a',marginTop:8}}>{err}</div>}<div className="help" style={{marginTop:10}}>We only read public blockchain data. Nothing is stored and you keep full control of your keys.</div></section>{show&&(<section style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}><div className="card"><b>Assets (Base)</b><div className="help" style={{marginTop:8}}>Token list with balances on Base. You can protect any of these on the next screen.</div><ul style={{marginTop:8}}>{TOKENS.map((t,i)=>(<li key={i}>{t.symbol} — {t.balance}</li>))}</ul></div><ApprovalsRadar rows={APPROVALS} onRevoke={onRevoke} onLimit={onLimit}/></section>)}{show&&(<div className="card" style={{marginTop:12,display:'flex',justifyContent:'space-between',alignItems:'center'}}><div className="badge">3 high‑risk approvals detected</div><button className="btn" onClick={()=>setNav('protect')}>Create protection plan</button></div>)}</div>{nav==='protect'&&<iframe src="/base" style={{border:'none',width:'100%',height:'70dvh',borderRadius:12,background:'transparent'}}/>}{nav==='help'&&<iframe src="/help" style={{border:'none',width:'100%',height:'70dvh',borderRadius:12,background:'transparent'}}/>}</>)}
